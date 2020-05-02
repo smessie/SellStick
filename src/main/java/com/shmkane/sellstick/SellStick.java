@@ -1,17 +1,14 @@
 package com.shmkane.sellstick;
 
-import java.util.logging.Logger;
-
+import com.shmkane.sellstick.Configs.PriceConfig;
+import com.shmkane.sellstick.Configs.StickConfig;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.earth2me.essentials.Essentials;
-import com.shmkane.sellstick.Configs.PriceConfig;
-import com.shmkane.sellstick.Configs.StickConfig;
-
-import net.milkbowl.vault.economy.Economy;
+import java.util.logging.Logger;
 
 /**
  * SellStick is a MC plugin that allows customizable selling of
@@ -29,10 +26,6 @@ public class SellStick extends JavaPlugin {
      * Instance of Vault Economy
      **/
     private static Economy econ;
-    /**
-     * Holds instance of Essentials
-     **/
-    public Essentials ess;
 
     /**
      * Initial plugin setup. Creation and loading of YML files.
@@ -51,7 +44,6 @@ public class SellStick extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        setupEssentials();
 
         if (Bukkit.getPluginManager().isPluginEnabled("ShopGuiPlus")) {
             if (!StickConfig.instance.useShopGUI) {
@@ -75,7 +67,6 @@ public class SellStick extends JavaPlugin {
     public void onDisable() {
         log.warning(String.format("[%s] - Attempting to disabling...", getDescription().getName()));
         try {
-            ess = null;
             econ = null;
         } catch (Exception ex) {
             log.severe(String.format("[%s] - Was not disabled correctly!", getDescription().getName()));
@@ -83,27 +74,6 @@ public class SellStick extends JavaPlugin {
             log.warning(String.format("[%s] - Attempt complete!", getDescription().getName()));
         }
     }
-
-    /**
-     * Checks if Essentials is available to be hooked into.
-     */
-    public void setupEssentials() {
-        if (Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
-            log.info(String.format("[%s] Essentals was found", getDescription().getName()));
-            ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-        }
-
-        if (StickConfig.instance.useEssentialsWorth) {
-            if (ess == null || !ess.isEnabled()) {
-                log.warning(String.format("[%s] Trying to use essentials worth but essentials not found!",
-                        getDescription().getName()));
-            } else {
-                log.info(String.format("[%s] Using essentials worth!", getDescription().getName()));
-            }
-        }
-
-    }
-
     /**
      * Attempts to hook into Vault.
      *

@@ -298,14 +298,6 @@ public class PlayerListener implements Listener {
                         }
 
                     }
-                } else if (si == SellingInterface.ESSWORTH) {
-                    price = plugin.ess.getWorth().getPrice(plugin.ess, contents[i]).doubleValue();
-                    if (StickConfig.instance.debug) {
-                        if (price > 0)
-                            SellStick.log.warning("-Price: " + price);
-                        SellStick.log.warning(contents[i].getType() + " x " + contents[i].getAmount());
-                    }
-
                 } else if (si == SellingInterface.SHOPGUI) {
 
                     price = ShopGuiPlusApi.getItemStackPriceSell(e.getPlayer(), contents[i]);
